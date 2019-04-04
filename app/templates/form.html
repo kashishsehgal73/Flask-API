@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <h1>Search for News</h1>
+    <form action="{{ url_for('search_data') }}" method="post" novalidate enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.country.label }}<br>
+            {{ form.country }}
+        </p>
+        <p>
+            {{ form.category.label }}<br>
+            {{ form.category }}
+        </p>
+		<p>
+            {{ form.keyword.label }}<br>
+            {{ form.keyword }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
