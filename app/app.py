@@ -44,7 +44,7 @@ def search_data():
 
 	data = get_cached_json(country, category)
 
-	#data = filter_results(data, keyword, country, category)
+	data = filter_results(data, keyword, country, category)
 
 	return jsonify(data)
 
