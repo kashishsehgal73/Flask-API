@@ -1,51 +1,28 @@
 from flask import Flask,request,jsonify,render_template
-import requests, json
-from urllib.parse import urlencode
+import requests, json, os
 from urllib.request import urlopen
 from app import app
 from app.forms import Search
 from app.config import Config
+from app.processing import  filter_results
+from app.cache import get_data,get_cached_json
 
 app = Flask(__name__)
 app.config.from_object(Config)
-base_url = "https://newsapi.org/v2/top-headlines?"
-apikey = "eadb6da4bb5847a8b5f5b8a633e53ab9"
 
-
-#Function to filter results according to keyword and change structure to our requirement
-def filter_results(res, keyword, country, category):
-	newdict = res.copy()
-	newdict['articles'] = []
-	count = 0
-	print(newdict)
-	for article in res['articles']:
-		filtered_article = {}
-		text =  article['content']
-		if (text and keyword in text):
-			filtered_article['Country'] = country
-			filtered_article['Category'] = category
-			filtered_article['Filter_keyword'] = keyword
-			filtered_article['title'] = article['title']
-			filtered_article['description'] = article['description']
-			filtered_article['url'] = article['url']
-			newdict['articles'].append(filtered_article)
-			count = count + 1
-		else:
-			pass
-	newdict['totalResults'] = count
-	return newdict
 
 #Simple test to get json response directly from request
 @app.route('/test')
 def test():
-	mydict = {'country': None, 'category': None, 'apikey':apikey }
 	country = request.args.get('country')
 	category = request.args.get('category')
-	mydict['country'] = country
-	mydict['category'] = category
-	url = base_url + urlencode(mydict)
-	res = requests.get(url=url)
-	return jsonify(res.json())
+	keyword = request.args.get('filter')
+	if(not(category and country)):
+		return render_template('bad_parameters.html', title='Error')
+	data = get_cached_json(country, category)
+	if(keyword):
+		data = filter_results(data, keyword, country, category)
+	return jsonify(data)
 
 #Home Page
 @app.route('/')
@@ -63,21 +40,14 @@ def search():
 #Receive search parameters and return json
 @app.route('/search_data', methods=['POST'])
 def search_data():
-	mydict = {'country': None, 'category': None, 'apikey':apikey }
-	country = request.form['country']
-	category = request.form['category']
-	keyword = request.form['keyword']
-	mydict['country'] = country
-	mydict['category'] = category
+	country, category, keyword = request.form['country'], request.form['category'], request.form['keyword']
 
-	#Generating url wrt search parameters
-	url = base_url + urlencode(mydict)
-	res = requests.get(url=url)
-	data = json.loads(res.text)
+	data = get_cached_json(country, category)
 
-	#Calling the filter_results function
-	result = filter_results(data, keyword, country, category)
-	return jsonify(json.loads(json.dumps(result)))
+	#data = filter_results(data, keyword, country, category)
+
+	return jsonify(data)
+
 
 #Error handler for 404
 @app.errorhandler(404)
