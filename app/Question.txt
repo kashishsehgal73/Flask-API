@@ -1,0 +1,45 @@
+Develop a service to find relevant news for a particular Category and Country. The json output from NEWS API should be further filtered for relevant keyword provided to the Micro-service (example Keyword = Tendulkar).
+
+The service should be accessible via web browser on internet and end user should be able to view results by changing previously listed parameters. Output of this service should be JSON. And the service should be ready (in Git repository) to be released to production or live environment.
+
+Write test cases and deploy the service on any one of GCP, AWS or Any other cloud provider for bonus marks.
+
+In output, display following:
+
+    Country
+    Category
+    Filter keyword
+    News Title
+    Description (first 100 words)
+    Source News URL
+
+In case of bad parameters the API should return proper error messages.
+
+API to fetch news data:
+
+https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey={api-key}
+
+API Key:eadb6da4bb5847a8b5f5b8a633e53ab9
+
+Please also keep in mind that you shouldn’t make the API call if you have made the call using same parameters in last 10 minutes.
+
+Some things we will look for in the solution:
+
+    Quality of code- Aside from a working solution, emphasis should be given on the quality of code. Object oriented or Functional design (or a combination), and best practices in either will be noticed.
+    Edge cases- Your solution should cover any edge cases that you notice. The decision on how to handle those cases is up to you.
+    Error handling- Your solution should be robust enough to handle errors in a graceful manner.
+    Testing- You should write unit tests, ideally to provide maximum code coverage. We will look at the quality of test cases as well.
+    The solution should *just work* out of the box for us. You should have one single script that can quickly compile/install dependencies and set the solution up for us (on either MacOS or Linux). If it takes us too long to just set up your project in an isolated environment, that might be counted as a negative.
+    Bonus points for Containerization.
+
+Sharing the solution:
+
+NOTE: Do not share this assignment problem and the solution with anyone, and do not post the solution publicly.
+
+For both your and our convenience, you should host the solution in aprivateBitbucket repo (free to create) and share the access with the following account:
+
+Username: wingify_backend
+
+URL:https://bitbucket.org/wingify_backend/
+
+If you upload the private repository on any other platform, you will have to figure out how to share the private repo with us.
