@@ -27,7 +27,7 @@ def test():
 #Home Page
 @app.route('/')
 def home():
-	return render_template('index.html', title='Home')
+	return render_template('home.html', title='Home')
 
 
 #Search Form
@@ -41,12 +41,10 @@ def search():
 @app.route('/search_data', methods=['POST'])
 def search_data():
 	country, category, keyword = request.form['country'], request.form['category'], request.form['keyword']
-
 	data = get_cached_json(country, category)
-
-	data = filter_results(data, keyword, country, category)
-
-	return jsonify(data)
+	if(keyword):
+		data = filter_results(data, keyword, country, category)
+	return render_template('form.html', title='Search', test=data)
 
 
 #Error handler for 404
@@ -54,7 +52,7 @@ def search_data():
 def not_found_error(error):
     return (render_template('404.html'), 404)
 
-#Error handler for 404
+#Error handler for 500
 @app.errorhandler(500)
 def internal_error(error):
     db.session.rollback()

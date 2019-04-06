@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+{% block content %}
+<p><b>This is a flask app to find relevant news for a particular Category and Country with filtering for keywords.</b></p>
+<p>
+	Use the <a href="{{ url_for('search') }}">search</a> page to use a form to search for news.
+	<font color="red">(This returns the results as text.)</font>
+</p>
+<p>
+	Use the <a href="{{ url_for('test') }}">test</a> page to get a json response from the service.
+	<font color="red">(This returns the results as json.)</font>
+</p>
+<p>Use parameters as a query request on this "/test" url.</p>
+<p>Usage: /test?country={country code}&category={category code}&filter={filter keyword}</p>
+<p>Example: /test?country=us&category=business&filter=price</p>
+{% endblock %}

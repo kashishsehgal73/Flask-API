@@ -9,7 +9,7 @@ def filter_results(data, keyword, country, category):
 	for article in data['articles']:
 		filtered_article = {}
 		text =  article['content']
-		if (text and keyword in text):
+		if (text and any(key in text for key in keyword.split())):
 			filtered_article['Country'] = country
 			filtered_article['Category'] = category
 			filtered_article['Filter_keyword'] = keyword

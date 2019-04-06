@@ -1,6 +1,9 @@
 {% extends "index.html" %}
 
+
+
 {% block content %}
+	{% if form %}
     <h1>Search for News</h1>
     <form action="{{ url_for('search_data') }}" method="post" novalidate enctype="multipart/form-data">
         {{ form.hidden_tag() }}
@@ -18,4 +21,7 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+	{% endif %}
+	{% if test %}<p>{{test}}</p>{% endif %}
+
 {% endblock %}

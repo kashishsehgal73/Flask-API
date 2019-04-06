@@ -3,5 +3,8 @@
 {% block content %}
     <h1>Bad Parameters </h1>
 	<h2>Please try again with different parameters. </h2>
-    <p><a href="{{ url_for('home') }}">Back</a></p>
+	<p>Please use parameters as a query request on this "/test" url.</p>
+	<p>Usage: <b>/test?country={country code}&category={category code}&filter={filter keyword}</b></p>
+	<p>Example: /test?country=us&category=business&filter=price</p>
+	<p><a href="{{ url_for('home') }}">Back</a></p>
 {% endblock %}
